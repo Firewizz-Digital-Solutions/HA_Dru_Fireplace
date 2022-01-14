@@ -3,9 +3,7 @@ Dru fireplace integration for home assistant
 
 NOTE: Still work in progress..
 
-/*
- * Install DRU FIREPLACE as a package Guide
- */
+==== Install DRU FIREPLACE as a package Guide ====
 
 1) Insert/merge lines from configuration.yaml to own configuration.yaml
 
