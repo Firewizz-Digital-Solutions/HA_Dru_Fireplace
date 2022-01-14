@@ -17,6 +17,7 @@ Current goals:
 - Adding scripts to start by templates (soft, full, wave, etc..)
 - Adding custom wave pattern
 - Add thermostat
+- Changing flame height
 
 Known issues:
 - Some switches not yet working..
