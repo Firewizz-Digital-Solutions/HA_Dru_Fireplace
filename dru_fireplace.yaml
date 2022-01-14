@@ -1,0 +1,188 @@
+# DRU Fireplace MODBUS addresses through honeywell controller (https://github.com/snoekieboe/HABpanel/blob/master/dru-modbus-tcp-ip-protokol-n-vodb3523.pdf)
+
+# REGISTER(read): 40100 (status)
+# REGISTER(read): 40101 (action info)
+# 
+# REGISTER(write): 40200 (Fireplace actions)
+# Values:
+#   0 No action
+#   1 Turn fireplace off
+#   2 Turn pilot(small "standby" flame, disabled in modern fireplaces) off
+#   3 Turn main burner OFF
+#   4 Turn second burner OFF
+#   5 Turn LED light OFF
+#   6 Turn BOOST FAN OFF
+#   7 Turn WAVE OFF
+#   8 Turn TEMP control OFF
+# 100 Turn Pilot ON
+# 101 Turn Main Burner ON
+# 102 Turn Second Burner ON
+# 103 Turn LED Light ON
+# 104 Turn Boost FAN ON
+# 105 Turn WAVE ON
+# 106 Turn TEMP control ON
+# 1000 Reset Fireplace
+#
+# REGISTER(write): 40201 (Flame height)
+# Value: 0-100 (%)
+# note: this only works 10 seconds AFTER the main burner is on..
+# note: Also this is ignored when TEMP mode is ON
+# (Due to legislation on the used RF frequecy 
+#   its not alowed to write this value more than once every 10 seconds)
+#
+# REGISTER(readWrite): 40202
+# default 60 min
+# Communication timeout in minutes.
+# fireplace is turned OFF when there is no communication with Modbus master
+# or tcp client for at least this time.
+#
+# 
+
+
+
+# 40100 [info] Status
+# 40101 [info] Action Info
+# 40201 Flame height
+# 40420 EcoWave inteval time
+# 40200 Action Register
+
+  
+# can always have a 10 second delay  
+modbus:
+  - name: dru_fireplace
+    type: tcp
+    host: 10.0.1.201
+    port: 502
+    timeout: 10
+    delay: 1
+
+    sensors:
+      - name: dru_fireplace_gw_info_hw_type
+        slave: 2
+        address: 40000    
+      - name: dru_fireplace_gw_info_sw_version
+        slave: 2
+        address: 40001        
+      - name: dru_fireplace_rf_protocol # 0 Standard, 1 Legacy
+        slave: 2
+        address: 40010  
+      - name: dru_fireplace_baud_rate
+        slave: 2
+        address: 40011          
+        # Skipped unnecessary items, see manual to add
+      - name: dru_fireplace_rf_last_seen_sec # when burner is off there is no comm
+        slave: 2
+        address: 40100           
+      - name: dru_fireplace_rf_com_stats # 1 is error
+        slave: 2
+        address: 40101        
+      - name: dru_fireplace_raw_status # status in bit flags as decimal
+        slave: 2
+        address: 40203
+        scan_interval: 2
+      - name: dru_fireplace_errorcode
+        slave: 2
+        address: 40204
+      - name: dru_fireplace_raw_gw_rssi_level
+        slave: 2
+        address: 40205
+      - name: dru_fireplace_raw_dfgt_rssi_level
+        slave: 2
+        address: 40206
+      - name: dru_fireplace_raw_room_temperature
+        slave: 2
+        address: 40207
+      - name: dru_fireplace_raw_set_temperature
+        slave: 2
+        address: 40250
+      - name: dru_fireplace_raw_set_temperature
+        slave: 2
+        address: 40250
+
+# Template sensors
+template:
+  - sensor:
+    - name: "DRU Fireplace GW RSSI Level"
+      state: "{{ states('sensor.dru_fireplace_raw_gw_rssi_level')|int * -0.5 }}"
+      unit_of_measurement: "RSSI"
+    - name: "DRU Fireplace DFGT RSSI Level"
+      state: "{{ states('sensor.dru_fireplace_raw_dfgt_rssi_level')|int * -0.5 }}"
+      unit_of_measurement: "RSSI"
+    - name: "DRU Fireplace Room temp"
+      state: "{{ states('sensor.dru_fireplace_raw_room_temperature')|int / 10 }}"
+      unit_of_measurement: "C"
+      icon: mdi:home-thermometer-outline
+    - name: "DRU Fireplace set temp"
+      state: "{{ states('sensor.dru_fireplace_raw_set_temperature')|int / 10 }}"
+      unit_of_measurement: "C"
+
+
+  # Binary sensor are read from the raw status and BITWISE/BITFLAGS interpreted      
+  - binary_sensor:
+    - name: dru_fireplace_has_error
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(1) > 0 }}"
+      icon: mdi:alert-outline  
+    - name: dru_fireplace_pilot_flame
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(2) > 0 }}"
+      icon: mdi:candle  
+    - name: dru_fireplace_main_burner
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(4) > 0 }}"
+      icon: mdi:fire  
+    - name: dru_fireplace_second_burner
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(8) > 0 }}"
+      icon: mdi:campfire  
+    - name: dru_fireplace_low_battery
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(16) > 0 }}"
+      icon: mdi:help-circle  
+    - name: dru_fireplace_230v_fault
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(32) > 0 }}"
+      icon: mdi:help-circle  
+    - name: dru_fireplace_reset_can_be_initiated
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(64) > 0 }}"
+      icon: mdi:help-circle  
+    - name: dru_fireplace_boost_fan
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(128) > 0 }}"
+      icon: mdi:fan  
+    - name: dru_fireplace_led_glowbed
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(256) > 0 }}"
+      icon: mdi:wall-sconce-flat-variant  
+    - name: dru_fireplace_wave_function
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(512) > 0 }}"
+      icon: mdi:sine-wave  
+    - name: dru_fireplace_flame_height_locked
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(1024) > 0 }}"
+      icon: mdi:arrow-vertical-lock  
+    - name: dru_fireplace_remote_ctrl_bound
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(2048) > 0 }}"
+      icon: mdi:help-circle         
+    - name: dru_fireplace_gw_bound
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(4096) > 0 }}"
+      icon: mdi:help-circle         
+    - name: dru_fireplace_ignition_not_allowed
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(32768) > 0 }}"
+      icon: mdi:fire-off         
+      
+# Switches
+switch:
+- platform: template
+  switches:
+    dru_fireplace_led_glowbed:
+      friendly_name: "Led gloeibed"
+      value_template: "{{ is_state('binary_sensor.dru_fireplace_led_glowbed', 'on') }}"
+      icon_template: mdi:wall-sconce-flat-variant
+      turn_on:
+        service: modbus.write_register
+        data: 
+          address: 40200
+          unit: 2
+          value: 103
+          hub: dru_fireplace
+      turn_off:
+        service: modbus.write_register
+        data:
+          address: 40200
+          unit: 2
+          value: 5
+          hub: dru_fireplace
+
+
