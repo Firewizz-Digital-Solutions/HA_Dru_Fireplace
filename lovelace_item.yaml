@@ -1,0 +1,96 @@
+type: vertical-stack
+title: DRU Fireplace
+cards:
+  - type: grid
+    cards:
+      - type: button
+        tap_action:
+          action: none
+        entity: binary_sensor.dru_fireplace_has_error
+        show_state: false
+        icon: mdi:alert-outline
+        show_name: true
+        name: Fout
+      - type: button
+        tap_action:
+          action: none
+        entity: binary_sensor.dru_fireplace_ignition_not_allowed
+        show_state: false
+        icon: mdi:fire-off
+        show_name: true
+        name: niet ontst.
+      - type: button
+        tap_action:
+          action: none
+        entity: binary_sensor.dru_fireplace_main_burner
+        icon: mdi:fire
+        show_name: true
+        name: Hoofd brander
+      - type: button
+        tap_action:
+          action: none
+        entity: binary_sensor.dru_fireplace_second_burner
+        icon: mdi:campfire
+        show_name: true
+        name: 2de Brander
+      - type: button
+        tap_action:
+          action: none
+        entity: binary_sensor.dru_fireplace_wave_function
+        icon: mdi:sine-wave
+        show_name: true
+        name: Wave
+      - type: button
+        tap_action:
+          action: toggle
+        show_name: true
+        name: LED
+        entity: switch.dru_fireplace_led_glowbed
+        show_state: false
+      - type: button
+        tap_action:
+          action: none
+        entity: binary_sensor.dru_fireplace_boost_fan
+        show_name: true
+        show_state: false
+        icon: mdi:fan
+        name: Fan
+      - type: button
+        tap_action:
+          action: none
+        entity: binary_sensor.dru_fireplace_flame_height_locked
+        show_state: false
+        icon: mdi:arrow-vertical-lock
+        show_name: true
+        name: Hoogte vast
+      - type: button
+        entity: sensor.dru_fireplace_room_temp
+        show_name: false
+        show_state: true
+        icon: mdi:home-thermometer-outline
+        tap_action:
+          action: none
+      - type: button
+        tap_action:
+          action: toggle
+        entity: sensor.dru_fireplace_set_temp
+        show_name: false
+        show_state: true
+        icon: mdi:thermometer
+      - type: button
+        tap_action:
+          action: none
+        entity: binary_sensor.dru_fireplace_pilot_flame
+        icon: mdi:candle
+        show_name: true
+        name: Waak vlam
+      - type: button
+        tap_action:
+          action: none
+        entity: sensor.dru_fireplace_raw_status
+        show_state: true
+        show_name: true
+        show_icon: false
+        name: Status
+    columns: 4
+    square: true
