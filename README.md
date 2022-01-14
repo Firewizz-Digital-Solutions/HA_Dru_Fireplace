@@ -11,3 +11,9 @@ NOTE: Still work in progress..
  
 3) Create a lovelace card from file 'lovelace_item.yaml'
 
+Current goals:
+- Activating all switches;
+- Programming that safety (scripts that make sure actions may be performed)
+
+Known issues:
+- Some switches not yet working..

@@ -184,5 +184,74 @@ switch:
           unit: 2
           value: 5
           hub: dru_fireplace
+    dru_fireplace_wave:
+      friendly_name: "Haard wave"
+      value_template: "{{ is_state('binary_sensor.dru_fireplace_wave_function', 'on') }}"
+      icon_template: mdi:sine-wave
+      turn_on:
+        service: modbus.write_register
+        data:
+          address: 40200
+          unit: 2
+          value: 105
+          hub: dru_fireplace
+      turn_off:
+        service: modbus.write_register
+        data:
+          address: 40200
+          unit: 2
+          value: 7
+          hub: dru_fireplace
+    dru_fireplace_main_burner:
+      friendly_name: "Haard Hoofd brander"
+      value_template: "{{ is_state('binary_sensor.dru_fireplace_main_burner', 'on') }}"
+      icon_template: mdi:fire
+      turn_on:
+        service: modbus.write_register
+        data:
+          address: 40200
+          unit: 2
+          value: 101
+          hub: dru_fireplace
+      turn_off:
+        service: modbus.write_register
+        data:
+          address: 40200
+          unit: 2
+          value: 3
+          hub: dru_fireplace
+    dru_fireplace_second_burner:
+      friendly_name: "Haard 2de brander"
+      value_template: "{{ is_state('binary_sensor.dru_fireplace_main_burner', 'on') }}"
+      icon_template: mdi:campfire
+      turn_on:
+        service: modbus.write_register
+        data:
+          address: 40200
+          unit: 2
+          value: 102
+          hub: dru_fireplace
+      turn_off:
+        service: modbus.write_register
+        data:
+          address: 40200
+          unit: 2
+          value: 4
+          hub: dru_fireplace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -21,22 +21,22 @@ cards:
         name: niet ontst.
       - type: button
         tap_action:
-          action: none
-        entity: binary_sensor.dru_fireplace_main_burner
+          action: toggle
+        entity: switch.dru_fireplace_main_burner
         icon: mdi:fire
         show_name: true
         name: Hoofd brander
       - type: button
         tap_action:
-          action: none
-        entity: binary_sensor.dru_fireplace_second_burner
+          action: toggle
+        entity: switch.dru_fireplace_second_burner
         icon: mdi:campfire
         show_name: true
         name: 2de Brander
       - type: button
         tap_action:
-          action: none
-        entity: binary_sensor.dru_fireplace_wave_function
+          action: toggle
+        entity: switch.dru_fireplace_wave
         icon: mdi:sine-wave
         show_name: true
         name: Wave
