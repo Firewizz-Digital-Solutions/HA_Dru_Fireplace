@@ -1,0 +1,3 @@
+### The following installs all package files
+homeassistant:
+  packages: !include_dir_named packages
