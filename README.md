@@ -14,6 +14,8 @@ NOTE: Still work in progress..
 Current goals:
 - Activating all switches;
 - Programming that safety (scripts that make sure actions may be performed)
+- Adding scripts to start by templates (soft, full, wave, etc..)
+- Adding custom wave pattern
 
 Known issues:
 - Some switches not yet working..
