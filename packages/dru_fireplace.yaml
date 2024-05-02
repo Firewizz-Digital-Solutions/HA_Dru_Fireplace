@@ -95,9 +95,6 @@ modbus:
       - name: dru_fireplace_raw_set_temperature
         slave: 2
         address: 40250
-      - name: dru_fireplace_raw_set_temperature
-        slave: 2
-        address: 40250
 
 # Template sensors
 template:
