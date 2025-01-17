@@ -59,42 +59,52 @@ modbus:
     sensors:
       - name: dru_fireplace_gw_info_hw_type
         slave: 2
-        address: 40000    
+        address: 40000
+        data_type: uint16
       - name: dru_fireplace_gw_info_sw_version
         slave: 2
-        address: 40001        
-      - name: dru_fireplace_rf_protocol # 0 Standard, 1 Legacy
-        slave: 2
-        address: 40010  
-      - name: dru_fireplace_baud_rate
-        slave: 2
-        address: 40011          
+        address: 40001
+        data_type: uint16
+      #- name: dru_fireplace_rf_protocol # 0 Standard, 1 Legacy
+      #  slave: 2
+      #  address: 40010  
+      #- name: dru_fireplace_baud_rate
+      #  slave: 2
+      #  address: 40011
         # Skipped unnecessary items, see manual to add
       - name: dru_fireplace_rf_last_seen_sec # when burner is off there is no comm
         slave: 2
-        address: 40100           
+        address: 40100
+        data_type: uint16
       - name: dru_fireplace_rf_com_stats # 1 is error
         slave: 2
-        address: 40101        
+        address: 40101
+        data_type: uint16
       - name: dru_fireplace_raw_status # status in bit flags as decimal
         slave: 2
         address: 40203
-        scan_interval: 2
+        data_type: uint16
+        scan_interval: 5
       - name: dru_fireplace_errorcode
         slave: 2
         address: 40204
+        data_type: uint16
       - name: dru_fireplace_raw_gw_rssi_level
         slave: 2
         address: 40205
+        data_type: uint16
       - name: dru_fireplace_raw_dfgt_rssi_level
         slave: 2
         address: 40206
+        data_type: uint16
       - name: dru_fireplace_raw_room_temperature
         slave: 2
         address: 40207
+        data_type: uint16
       - name: dru_fireplace_raw_set_temperature
         slave: 2
         address: 40250
+        data_type: uint16
 
 # Template sensors
 template:
