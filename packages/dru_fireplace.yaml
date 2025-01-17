@@ -1,3 +1,7 @@
+##################################################
+#### FIREWIZZ DIGITAL SOLUTIONS (Firewizz.nl) ####
+##################################################
+
 # DRU Fireplace MODBUS addresses through honeywell controller (https://github.com/snoekieboe/HABpanel/blob/master/dru-modbus-tcp-ip-protokol-n-vodb3523.pdf)
 
 # REGISTER(read): 40100 (status)
@@ -53,8 +57,8 @@ modbus:
     type: tcp
     host: 10.0.1.201
     port: 502
-    timeout: 10
-    delay: 1
+    timeout: 4
+    delay: 2
 
     sensors:
       - name: dru_fireplace_gw_info_hw_type
