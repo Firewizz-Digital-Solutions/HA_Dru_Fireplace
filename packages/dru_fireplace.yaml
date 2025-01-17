@@ -100,64 +100,64 @@ modbus:
 template:
   - sensor:
     - name: "DRU Fireplace GW RSSI Level"
-      state: "{{ states('sensor.dru_fireplace_raw_gw_rssi_level')|int * -0.5 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_gw_rssi_level')|int(0) * -0.5 }}"
       unit_of_measurement: "RSSI"
     - name: "DRU Fireplace DFGT RSSI Level"
-      state: "{{ states('sensor.dru_fireplace_raw_dfgt_rssi_level')|int * -0.5 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_dfgt_rssi_level')|int(0) * -0.5 }}"
       unit_of_measurement: "RSSI"
     - name: "DRU Fireplace Room temp"
-      state: "{{ states('sensor.dru_fireplace_raw_room_temperature')|int / 10 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_room_temperature')|int(0) / 10 }}"
       unit_of_measurement: "C"
       icon: mdi:home-thermometer-outline
     - name: "DRU Fireplace set temp"
-      state: "{{ states('sensor.dru_fireplace_raw_set_temperature')|int / 10 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_set_temperature')|int(0) / 10 }}"
       unit_of_measurement: "C"
 
 
   # Binary sensor are read from the raw status and BITWISE/BITFLAGS interpreted      
   - binary_sensor:
     - name: dru_fireplace_has_error
-      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(1) > 0 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int(0)|bitwise_and(1) > 0 }}"
       icon: mdi:alert-outline  
     - name: dru_fireplace_pilot_flame
-      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(2) > 0 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int(0)|bitwise_and(2) > 0 }}"
       icon: mdi:candle  
     - name: dru_fireplace_main_burner
-      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(4) > 0 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int(0)|bitwise_and(4) > 0 }}"
       icon: mdi:fire  
     - name: dru_fireplace_second_burner
-      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(8) > 0 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int(0)|bitwise_and(8) > 0 }}"
       icon: mdi:campfire  
     - name: dru_fireplace_low_battery
-      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(16) > 0 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int(0)|bitwise_and(16) > 0 }}"
       icon: mdi:help-circle  
     - name: dru_fireplace_230v_fault
-      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(32) > 0 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int(0)|bitwise_and(32) > 0 }}"
       icon: mdi:help-circle  
     - name: dru_fireplace_reset_can_be_initiated
-      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(64) > 0 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int(0)|bitwise_and(64) > 0 }}"
       icon: mdi:help-circle  
     - name: dru_fireplace_boost_fan
-      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(128) > 0 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int(0)|bitwise_and(128) > 0 }}"
       icon: mdi:fan  
     - name: dru_fireplace_led_glowbed
-      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(256) > 0 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int(0)|bitwise_and(256) > 0 }}"
       icon: mdi:wall-sconce-flat-variant  
     - name: dru_fireplace_wave_function
-      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(512) > 0 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int(0)|bitwise_and(512) > 0 }}"
       icon: mdi:sine-wave  
     - name: dru_fireplace_flame_height_locked
-      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(1024) > 0 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int(0)|bitwise_and(1024) > 0 }}"
       icon: mdi:arrow-vertical-lock  
     - name: dru_fireplace_remote_ctrl_bound
-      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(2048) > 0 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int(0)|bitwise_and(2048) > 0 }}"
       icon: mdi:help-circle         
     - name: dru_fireplace_gw_bound
-      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(4096) > 0 }}"
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int(0)|bitwise_and(4096) > 0 }}"
       icon: mdi:help-circle         
     - name: dru_fireplace_ignition_not_allowed
-      state: "{{ states('sensor.dru_fireplace_raw_status')|int|bitwise_and(32768) > 0 }}"
-      icon: mdi:fire-off         
+      state: "{{ states('sensor.dru_fireplace_raw_status')|int(0)|bitwise_and(32768) > 0 }}"
+      icon: mdi:fire-off            
       
 # Switches
 switch:
